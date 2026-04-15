@@ -38,7 +38,10 @@ export default function Checkout() {
           commissionAmount: commission,
           vendorEarnings: vendorTotal - commission,
           status: 'pending',
-          address,
+          shippingAddress: {
+            ...address,
+            name: auth.currentUser.displayName || 'Customer'
+          },
           createdAt: new Date().toISOString()
         });
       });
@@ -47,7 +50,7 @@ export default function Checkout() {
       
       toast.success('Order placed successfully!');
       clearCart();
-      navigate('/dashboard');
+      navigate('/orders');
     } catch (error) {
       toast.error('Failed to place order');
     } finally {
@@ -108,7 +111,7 @@ export default function Checkout() {
             disabled={loading}
             className="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold hover:bg-indigo-700 transition-all flex items-center justify-center shadow-lg shadow-indigo-200 disabled:opacity-50"
           >
-            {loading ? 'Processing...' : `Pay $${total.toFixed(2)}`}
+            {loading ? 'Processing...' : `Pay ₹${total.toFixed(2)}`}
             {!loading && <ArrowRight className="ml-2 w-5 h-5" />}
           </button>
         </form>
@@ -124,13 +127,13 @@ export default function Checkout() {
                     <p className="font-bold text-gray-900">{item.name}</p>
                     <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                   </div>
-                  <p className="font-bold text-gray-900">${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="font-bold text-gray-900">₹{(item.price * item.quantity).toFixed(2)}</p>
                 </div>
               ))}
             </div>
             <div className="pt-4 border-t border-gray-100 flex justify-between text-xl">
               <span className="font-bold text-gray-900">Total</span>
-              <span className="font-extrabold text-indigo-600">${total.toFixed(2)}</span>
+              <span className="font-extrabold text-indigo-600">₹{total.toFixed(2)}</span>
             </div>
           </div>
         </div>

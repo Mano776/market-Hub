@@ -16,11 +16,15 @@ export default function CustomerDashboard() {
       try {
         const q = query(
           collection(db, 'orders'), 
-          where('customerId', '==', auth.currentUser.uid),
-          orderBy('createdAt', 'desc')
+          where('customerId', '==', auth.currentUser.uid)
         );
         const querySnapshot = await getDocs(q);
-        setOrders(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        const ordersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        // Sort in-memory to avoid requiring a composite Firestore index
+        ordersData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+        setOrders(ordersData);
       } catch (error) {
         console.error('Error fetching orders:', error);
       } finally {
@@ -95,7 +99,7 @@ export default function CustomerDashboard() {
                 </div>
                 <div>
                   <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Total</p>
-                  <p className="text-lg font-black text-indigo-600">${order.totalAmount}</p>
+                  <p className="text-lg font-black text-indigo-600">₹{order.totalAmount}</p>
                 </div>
                 <div className={`px-4 py-1.5 rounded-full text-xs font-black border flex items-center space-x-2 ${getStatusColor(order.status)}`}>
                   {getStatusIcon(order.status)}
@@ -156,11 +160,11 @@ export default function CustomerDashboard() {
                               />
                               <div>
                                 <p className="font-bold text-gray-900">{item.name}</p>
-                                <p className="text-xs text-gray-500">Unit Price: ${item.price}</p>
+                                <p className="text-xs text-gray-500">Unit Price: ₹{item.price}</p>
                               </div>
                             </div>
                             <div className="text-right">
-                              <p className="font-bold text-gray-900">${item.price * item.quantity}</p>
+                              <p className="font-bold text-gray-900">₹{item.price * item.quantity}</p>
                               <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
                             </div>
                           </div>

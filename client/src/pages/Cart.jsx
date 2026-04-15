@@ -37,7 +37,7 @@ export default function Cart() {
               />
               <div className="flex-1 space-y-1">
                 <h3 className="font-bold text-gray-900 text-lg">{item.name}</h3>
-                <p className="text-indigo-600 font-bold">${item.price}</p>
+                <p className="text-indigo-600 font-bold">₹{item.price}</p>
               </div>
               <div className="flex items-center space-x-3 bg-gray-50 p-1 rounded-xl border border-gray-100">
                 <button 
@@ -71,7 +71,7 @@ export default function Cart() {
             <div className="space-y-4 text-sm">
               <div className="flex justify-between text-gray-500">
                 <span>Subtotal</span>
-                <span className="font-bold text-gray-900">${total.toFixed(2)}</span>
+                <span className="font-bold text-gray-900">₹{total.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-gray-500">
                 <span>Shipping</span>
@@ -79,7 +79,7 @@ export default function Cart() {
               </div>
               <div className="pt-4 border-t border-gray-100 flex justify-between text-lg">
                 <span className="font-bold text-gray-900">Total</span>
-                <span className="font-extrabold text-indigo-600">${total.toFixed(2)}</span>
+                <span className="font-extrabold text-indigo-600">₹{total.toFixed(2)}</span>
               </div>
             </div>
             <Link 

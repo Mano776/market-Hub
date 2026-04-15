@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
-    "build": "vite build",
-    "preview": "vite preview",
-    "clean": "rm -rf dist"
+    "dev": "node server/server.js",
+    "build": "cd client && vite build",
+    "preview": "cd client && vite preview",
+    "clean": "rm -rf client/dist"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
